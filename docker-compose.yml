@@ -1,0 +1,52 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    container_name: marketmind-postgres
+    environment:
+      POSTGRES_DB: marketmind
+      POSTGRES_USER: marketmind_user
+      POSTGRES_PASSWORD: marketmind_pass
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U marketmind_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Flask Backend API
+  backend:
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile.backend
+    container_name: marketmind-backend
+    environment:
+      FLASK_APP: app
+      FLASK_ENV: development
+      DATABASE_URL: postgresql://marketmind_user:marketmind_pass@postgres:5432/marketmind
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: python -m flask run --host=0.0.0.0
+
+  # Nginx Gateway (Optional for Phase 2)
+  nginx:
+    image: nginx:alpine
+    container_name: marketmind-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
