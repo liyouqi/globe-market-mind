@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flasgger import Swagger
 import os
 import atexit
 
@@ -12,10 +13,31 @@ def create_app():
     database_url = os.getenv('DATABASE_URL', 'postgresql://marketmind_user:marketmind_pass@postgres:5432/marketmind')
     app.config['SQLALCHEMY_DATABASE_URI'] = database_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'pool_size': 10,
+        'pool_recycle': 3600,
+        'pool_pre_ping': True,
+        'max_overflow': 20,
+        'connect_args': {
+            'connect_timeout': 10,
+            'options': '-c statement_timeout=30000'
+        }
+    }
     app.config['db'] = db
     app.config['DAYS_TO_KEEP'] = int(os.getenv('DAYS_TO_KEEP', 90))
     
     db.init_app(app)
+    
+    # Initialize Swagger
+    swagger = Swagger(app, template={
+        'swagger': '2.0',
+        'info': {
+            'title': 'GlobeMarketMind API',
+            'description': 'Global market sentiment analysis system',
+            'version': '1.0.0'
+        },
+        'basePath': '/api'
+    })
     
     with app.app_context():
         # Import models to register them with SQLAlchemy
@@ -45,6 +67,7 @@ def create_app():
     # Health check endpoint
     @app.route('/health')
     def health():
+        """Health check endpoint"""
         return {'status': 'OK'}, 200
     
     return app

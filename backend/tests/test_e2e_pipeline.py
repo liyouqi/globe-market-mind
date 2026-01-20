@@ -5,7 +5,11 @@ Validates all 15 markets process correctly across multiple runs
 """
 
 import sys
-sys.path.insert(0, '/Users/dada/Developer/italy_proj/SDE/GlobeMarketMind/backend')
+import os
+
+# Add backend to path (works from any location)
+backend_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, backend_path)
 
 import requests
 import json

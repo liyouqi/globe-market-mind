@@ -4,7 +4,11 @@ Test feature calculation, mood index, and correlation calculation
 """
 
 import sys
-sys.path.insert(0, '/Users/dada/Developer/italy_proj/SDE/GlobeMarketMind/backend')
+import os
+
+# Add backend to path (works from any location)
+backend_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, backend_path)
 
 from app.services.analytics import (
     FeatureCalculator, MoodEngine, CorrelationCalculator, AnalyticsEngine

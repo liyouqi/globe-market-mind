@@ -16,30 +16,15 @@ history_bp = Blueprint('history', __name__, url_prefix='/api/history')
 
 @history_bp.route('/markets/<market_id>/timeseries', methods=['GET'])
 def get_market_timeseries(market_id: str):
-    """
-    Get time series data for a single market
-    
-    Query parameters:
-        - days: Number of days to look back (default: 30)
-        - start_date: Start date (YYYY-MM-DD)
-        - end_date: End date (YYYY-MM-DD)
-    
-    Returns:
-        {
-            'market_id': 'US_SPX',
-            'data': [
-                {
-                    'date': '2026-01-20',
-                    'mood_index': 0.45,
-                    'mood_level': 'bullish',
-                    'volatility_30d': 0.55,
-                    'trend_strength': 0.15,
-                    'close_price': 4535.62,
-                    'volume': 450000000
-                },
-                ...
-            ]
-        }
+    """Get market timeseries data
+    ---
+    tags:
+      - History
+    responses:
+      200:
+        description: Timeseries data
+      404:
+        description: Market not found
     """
     db = current_app.config['db']
     
@@ -101,33 +86,13 @@ def get_market_timeseries(market_id: str):
 
 @history_bp.route('/compare', methods=['POST'])
 def compare_markets():
-    """
-    Compare mood index trends between multiple markets
-    
-    Request body:
-        {
-            'market_ids': ['US_SPX', 'EU_STOXX', 'JP_NIKKEI'],
-            'days': 30,
-            'metric': 'mood_index'  # or 'volatility_30d', 'trend_strength'
-        }
-    
-    Returns:
-        {
-            'comparison': {
-                'metric': 'mood_index',
-                'date_range': {'start': '2025-12-21', 'end': '2026-01-20'},
-                'markets': {
-                    'US_SPX': {
-                        'current': 0.45,
-                        'previous': 0.38,
-                        'change': 0.07,
-                        'trend': 'up',
-                        'history': [0.30, 0.35, 0.38, 0.45, ...]
-                    },
-                    ...
-                }
-            }
-        }
+    """Compare multiple markets
+    ---
+    tags:
+      - History
+    responses:
+      200:
+        description: Comparison results
     """
     db = current_app.config['db']
     
@@ -192,26 +157,13 @@ def compare_markets():
 
 @history_bp.route('/rankings', methods=['GET'])
 def get_market_rankings():
-    """
-    Get ranked markets by sentiment metric
-    
-    Query parameters:
-        - metric: 'mood_index', 'volatility_30d', 'trend_strength' (default: mood_index)
-        - order: 'asc' or 'desc' (default: desc for mood, asc for volatility)
-        - limit: Top N markets (default: 15)
-    
-    Returns:
-        {
-            'rankings': {
-                'metric': 'mood_index',
-                'timestamp': '2026-01-20T10:30:00',
-                'top': [
-                    {'rank': 1, 'market_id': 'IN_SENSEX', 'value': 0.4241, 'change': 0.05},
-                    ...
-                ],
-                'bottom': [...]
-            }
-        }
+    """Get market rankings by sentiment metric
+    ---
+    tags:
+      - History
+    responses:
+      200:
+        description: Market rankings
     """
     db = current_app.config['db']
     
@@ -314,22 +266,13 @@ def get_market_rankings():
 
 @history_bp.route('/correlation-network', methods=['GET'])
 def get_correlation_network():
-    """
-    Get complete correlation network of markets
-    
-    Returns:
-        {
-            'network': {
-                'nodes': [
-                    {'id': 'US_SPX', 'mood_index': 0.45, 'volatility': 0.55},
-                    ...
-                ],
-                'edges': [
-                    {'source': 'US_SPX', 'target': 'EU_STOXX', 'weight': 0.75},
-                    ...
-                ]
-            }
-        }
+    """Get market correlation network
+    ---
+    tags:
+      - History
+    responses:
+      200:
+        description: Correlation network data
     """
     db = current_app.config['db']
     

@@ -18,24 +18,13 @@ scheduler_bp = Blueprint('scheduler', __name__, url_prefix='/api/scheduler')
 
 @scheduler_bp.route('/status', methods=['GET'])
 def get_status():
-    """
-    Get current scheduler status and job information
-    
-    Returns:
-        {
-            'scheduler': {
-                'status': 'running' | 'stopped' | 'not_initialized',
-                'jobs': [
-                    {
-                        'id': 'daily_market_analysis',
-                        'name': 'Daily Market Analysis',
-                        'trigger': 'cron[hour=9]',
-                        'next_run': '2026-01-21T09:00:00'
-                    },
-                    ...
-                ]
-            }
-        }
+    """Get scheduler status
+    ---
+    tags:
+      - Scheduler
+    responses:
+      200:
+        description: Scheduler status
     """
     status = get_scheduler_status()
     return jsonify({'scheduler': status}), 200
@@ -43,15 +32,13 @@ def get_status():
 
 @scheduler_bp.route('/trigger-analysis', methods=['POST'])
 def trigger_manual_analysis():
-    """
-    Manually trigger market analysis (useful for testing)
-    Does not wait for completion
-    
-    Returns:
-        {
-            'status': 'triggered',
-            'message': 'Market analysis triggered manually'
-        }
+    """Trigger market analysis
+    ---
+    tags:
+      - Scheduler
+    responses:
+      200:
+        description: Analysis triggered
     """
     db = current_app.config['db']
     
@@ -74,17 +61,13 @@ def trigger_manual_analysis():
 
 @scheduler_bp.route('/trigger-cleanup', methods=['POST'])
 def trigger_manual_cleanup():
-    """
-    Manually trigger data cleanup (useful for testing)
-    
-    Query parameters:
-        - days_to_keep: Number of days of data to retain (default: 90)
-    
-    Returns:
-        {
-            'status': 'triggered',
-            'message': 'Data cleanup triggered successfully'
-        }
+    """Trigger data cleanup
+    ---
+    tags:
+      - Scheduler
+    responses:
+      202:
+        description: Cleanup triggered
     """
     db = current_app.config['db']
     days_to_keep = int(current_app.config.get('DAYS_TO_KEEP', 90))

@@ -17,24 +17,13 @@ process_bp = Blueprint('process', __name__, url_prefix='/api/process')
 
 @process_bp.route('/analyze', methods=['POST'])
 def trigger_analysis():
-    """
-    Trigger complete market analysis pipeline for all markets
-    
-    Pipeline stages:
-    1. Data Adapter: Fetch market data from Yahoo Finance (or mock fallback)
-    2. Analytics Engine: Calculate features, mood index, correlations
-    3. Data Service: Persist results to database
-    
-    Returns:
-        {
-            'status': 'success' | 'partial' | 'failed',
-            'pipeline': {
-                'data_fetch': {...},
-                'analytics': {...},
-                'persistence': {...}
-            },
-            'timestamp': '2026-01-18T10:30:45'
-        }
+    """Analyze all markets
+    ---
+    tags:
+      - Processing
+    responses:
+      200:
+        description: Analysis results
     """
     db = current_app.config['db']
     
@@ -92,20 +81,17 @@ def trigger_analysis():
         
         analytics_status = {
             'markets_analyzed': markets_analyzed,
-            'correlations_found': correlations_found,
-            'date': analytics_results.get('date')
+            'correlations_found': correlations_found
         }
         
-        logger.info(f"Stage 2 complete: {markets_analyzed} analyzed, {correlations_found} correlations")
+        logger.info(f"Stage 2 complete: {markets_analyzed} markets analyzed, {correlations_found} correlations found")
         
         # Stage 3: Persist to database
-        logger.info("Pipeline Stage 3: Persisting results")
+        logger.info("Pipeline Stage 3: Persisting to database")
         
-        persistence_results = DataService.save_batch_analytics(db, analytics_results)
-        
-        logger.info(
-            f"Stage 3 complete: {persistence_results['markets_saved']} markets saved, "
-            f"{persistence_results['correlations_saved']} correlations saved"
+        persistence_results = DataService.save_batch_analytics(
+            db=db,
+            analytics_results=analytics_results
         )
         
         # Determine overall status
@@ -139,10 +125,13 @@ def trigger_analysis():
 
 @process_bp.route('/snapshot', methods=['GET'])
 def get_snapshot():
-    """
-    Retrieve latest analytics snapshot
-    
-    Returns latest mood indices, volatility, correlations for all markets
+    """Get latest analytics snapshot
+    ---
+    tags:
+      - Processing
+    responses:
+      200:
+        description: Latest snapshot data
     """
     try:
         snapshot = DataService.get_latest_snapshot()

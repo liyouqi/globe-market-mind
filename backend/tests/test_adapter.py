@@ -2,6 +2,13 @@
 Test Adapter Service
 """
 
+import sys
+import os
+
+# Add backend to path (works from any location)
+backend_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, backend_path)
+
 from app.services.adapter import YahooFinanceAdapter
 import json
 
