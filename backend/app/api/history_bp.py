@@ -302,12 +302,12 @@ def get_correlation_network():
         ]
         
         # Get all correlations as edges
-        correlations = CorrelationEdge.query.all()
+        correlations = CorrelationEdge.query.filter_by(date=latest_date).all()
         
         edges = [
             {
-                'source': corr.source_market_id,
-                'target': corr.target_market_id,
+                'source': corr.source_id,
+                'target': corr.target_id,
                 'weight': corr.correlation_value,
                 'type': 'positive' if corr.correlation_value > 0 else 'negative'
             }

@@ -36,6 +36,7 @@ class DailyState(db.Model):
     volatility_30d = db.Column(db.Float)
     trend_strength = db.Column(db.Float)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     market = db.relationship('MarketRegistry', backref='daily_states')
     
@@ -62,6 +63,7 @@ class CorrelationEdge(db.Model):
     correlation_value = db.Column(db.Float, nullable=False)
     date = db.Column(db.Date, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     source = db.relationship('MarketRegistry', foreign_keys=[source_id])
     target = db.relationship('MarketRegistry', foreign_keys=[target_id])

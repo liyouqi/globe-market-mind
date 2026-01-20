@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS daily_state (
     volatility_30d FLOAT,
     trend_strength FLOAT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(market_id, date)
 );
 
@@ -33,6 +34,7 @@ CREATE TABLE IF NOT EXISTS correlation_edges (
     correlation_value FLOAT NOT NULL,
     date DATE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CHECK (source_id < target_id),
     UNIQUE(source_id, target_id, date)
 );
@@ -42,6 +44,7 @@ CREATE INDEX idx_daily_state_market ON daily_state(market_id);
 CREATE INDEX idx_daily_state_date ON daily_state(date);
 CREATE INDEX idx_correlation_edges_source ON correlation_edges(source_id);
 CREATE INDEX idx_correlation_edges_target ON correlation_edges(target_id);
+CREATE INDEX idx_correlation_edges_date ON correlation_edges(date);
 
 -- Insert major global markets
 INSERT INTO market_registry (id, name, latitude, longitude, market_group, country) VALUES

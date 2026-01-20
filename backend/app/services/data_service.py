@@ -102,10 +102,13 @@ class DataService:
             if source > target:
                 source, target = target, source
             
+            today = datetime.utcnow().date()
+            
             # Check if edge already exists
             existing_edge = CorrelationEdge.query.filter_by(
-                source_market_id=source,
-                target_market_id=target
+                source_id=source,
+                target_id=target,
+                date=today
             ).first()
             
             if existing_edge:
@@ -115,9 +118,10 @@ class DataService:
             else:
                 # Create new edge
                 edge = CorrelationEdge(
-                    source_market_id=source,
-                    target_market_id=target,
-                    correlation_value=correlation_value
+                    source_id=source,
+                    target_id=target,
+                    correlation_value=correlation_value,
+                    date=today
                 )
                 db.session.add(edge)
             
@@ -281,12 +285,12 @@ class DataService:
             for state in latest_states:
                 markets_dict[state.market_id] = state.to_dict()
             
-            # Get correlations
-            correlations = CorrelationEdge.query.all()
+            # Get correlations for latest date
+            correlations = CorrelationEdge.query.filter_by(date=latest_date).all()
             correlations_list = [
                 {
-                    'source': c.source_market_id,
-                    'target': c.target_market_id,
+                    'source': c.source_id,
+                    'target': c.target_id,
                     'correlation_value': c.correlation_value
                 }
                 for c in correlations
