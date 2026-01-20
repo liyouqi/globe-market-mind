@@ -76,21 +76,9 @@ python run.py
 ### Process Service
 - `GET /process/snapshot/today` - Get today's market snapshot
 
-## Implementation Phases
-
-- [ ] Phase 1: Foundation Setup (Week 1-2)
-- [ ] Phase 2: Core Logic (Week 3-4)
-- [ ] Phase 3: Frontend (Week 5)
-- [ ] Phase 4: Integration & Testing (Week 6)
 
 ## Database
 
 PostgreSQL with pre-populated markets:
 - 15 major global markets (DM and EM)
 - Tables: market_registry, daily_state, correlation_edges
-
-## Next Steps
-
-1. Implement data fetcher service (yfinance adapter)
-2. Implement analytics engine (mood index calculation)
-3. Build frontend visualization (Three.js globe)

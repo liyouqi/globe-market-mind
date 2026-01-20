@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
+import atexit
 
 db = SQLAlchemy()
 
@@ -12,6 +13,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = database_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['db'] = db
+    app.config['DAYS_TO_KEEP'] = int(os.getenv('DAYS_TO_KEEP', 90))
     
     db.init_app(app)
     
@@ -25,9 +27,20 @@ def create_app():
         # Register blueprints
         from app.api.data_bp import data_bp
         from app.api.process_bp import process_bp
+        from app.api.history_bp import history_bp
+        from app.api.scheduler_bp import scheduler_bp
         
         app.register_blueprint(data_bp)
         app.register_blueprint(process_bp)
+        app.register_blueprint(history_bp)
+        app.register_blueprint(scheduler_bp)
+        
+        # Initialize scheduler
+        from app.services.scheduler import init_scheduler, shutdown_scheduler
+        init_scheduler(app)
+        
+        # Register shutdown handler
+        atexit.register(shutdown_scheduler)
     
     # Health check endpoint
     @app.route('/health')
