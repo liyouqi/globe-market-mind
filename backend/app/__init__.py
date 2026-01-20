@@ -11,13 +11,20 @@ def create_app():
     database_url = os.getenv('DATABASE_URL', 'postgresql://marketmind_user:marketmind_pass@postgres:5432/marketmind')
     app.config['SQLALCHEMY_DATABASE_URI'] = database_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['db'] = db
     
     db.init_app(app)
     
     with app.app_context():
+        # Import models to register them with SQLAlchemy
+        from app.models.market import MarketRegistry, DailyState, CorrelationEdge
+        
+        # Create tables
+        db.create_all()
+        
         # Register blueprints
-        from app.api.data_bp import bp as data_bp
-        from app.api.process_bp import bp as process_bp
+        from app.api.data_bp import data_bp
+        from app.api.process_bp import process_bp
         
         app.register_blueprint(data_bp)
         app.register_blueprint(process_bp)
