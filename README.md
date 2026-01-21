@@ -278,3 +278,14 @@ python -m flask run
 # Auto-reload on code changes (need python-dotenv)
 FLASK_ENV=development python -m flask run
 ```
+
+## Authors
+
+* **Wail Ameur**
+* **Da Li**
+
+*Project created for the **Service Design and Engineering (SDE)** class.*
+
+## License
+
+This project is licensed under the **MIT License** - free and open source.

@@ -1,9 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize map
-    const map = L.map('map').setView([20, 0], 2);
+    // Initialize map with bounds to prevent infinite scrolling into empty space
+    const bounds = L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180));
+    const map = L.map('map', {
+        maxBounds: bounds,
+        maxBoundsViscosity: 1.0,
+        minZoom: 2
+    }).setView([20, 0], 2);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        noWrap: true,
+        bounds: bounds
     }).addTo(map);
 
     let geoJsonLayer;
