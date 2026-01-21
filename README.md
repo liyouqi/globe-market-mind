@@ -1,6 +1,6 @@
 # GlobeMarketMind - Global Market Sentiment Analysis
 
-This is a Flask-based system that analyzes the mood/sentiment of **79 global stock markets** across 6 continents. It automatically calculates a "mood index" for each market and shows how different markets are correlated with each other.
+This is a Flask-based system that analyzes the mood/sentiment of **79 global stock markets** across 6 continents. It automatically calculates a "mood index" for each market and visualizes the global sentiment on a 2D interactive map.
 
 ## Architecture Overview
 
@@ -8,8 +8,8 @@ This is a Flask-based system that analyzes the mood/sentiment of **79 global sto
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                         CLIENT LAYER                                     │
 │  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐        │
-│  │  Web Browser     │  │  API Client      │  │  3D Visualization │       │
-│  │  (Swagger UI)    │  │  (curl/Postman)  │  │  (Three.js)       │       │
+│  │  Web Browser     │  │  API Client      │  │  2D Visualization │       │
+│  │  (Swagger UI)    │  │  (curl/Postman)  │  │  (Leaflet Map)    │       │
 │  └────────┬─────────┘  └────────┬─────────┘  └────────┬─────────┘        │
 └───────────┼────────────────────┼────────────────────┼────────────────────┘
             │                    │                    │
@@ -115,10 +115,19 @@ curl http://localhost/api/data/markets
 
 If you have `jq` installed, you can format it nicely:
 ```bash
-curl http://localhost/api/data/markets | jq
-```
+### 2. Access the Web Map
 
-### 2. Check the API Docs
+Open in browser: `http://localhost/`
+
+The interactive map shows the mood of countries based on their markets.
+- **Red (-1.0)**: Bearish
+- **Yellow (0.0)**: Neutral
+- **Green (+1.0)**: Bullish
+- **Grey**: No Data
+
+**Note**: You must click the **"Trigger Analysis (Daily)"** button on the map to fetch the initial data if the database is empty.
+
+### 3. Check the API Docs
 
 Open in browser: `http://localhost/apidocs`
 
@@ -219,6 +228,11 @@ python tests/test_analytics.py    # Analysis algorithms
 ## Project Structure
 
 ```
+frontend/                     # Frontend UI
+│   ├── index.html            # Map visualization
+│   ├── styles.css            # Styling
+│   └── app.js                # Map logic & API calls
+
 backend/
 ├── app/                      # Main code
 │   ├── api/                  # API routes
