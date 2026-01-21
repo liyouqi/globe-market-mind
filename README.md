@@ -21,63 +21,63 @@ This is a Flask-based system that analyzes the mood/sentiment of **79 global sto
 └────────────────────────────────┬─────────────────────────────────────────┘
                                  ↓
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                   BACKEND SERVICE (Flask:5000)                            │
-│                                                                           │
-│  ┌────────────────────────────────────────────────────────────────────┐ │
-│  │  LAYER 1: Process Orchestration (process_bp.py)                    │ │
-│  │  • Pipeline coordination                                            │ │
-│  │  • Manual/scheduled triggers                                        │ │
-│  │  • Snapshot generation                                              │ │
-│  └───────────────────────────┬────────────────────────────────────────┘ │
-│                              ↓                                            │
-│  ┌────────────────────────────────────────────────────────────────────┐ │
-│  │  LAYER 2: Business Logic (analytics.py)                            │ │
-│  │  • FeatureCalculator: Volatility, Returns, Volume Ratios          │ │
-│  │  • MoodEngine: Mood Index = 0.5×Return - 0.3×Vol + 0.2×Volume    │ │
-│  │  • CorrelationCalculator: Pearson correlation between markets     │ │
-│  └───────────────────────────┬────────────────────────────────────────┘ │
-│                              ↓                                            │
-│  ┌────────────────────────────────────────────────────────────────────┐ │
-│  │  LAYER 3: Data Adapter (adapter.py)                                │ │
-│  │  • Yahoo Finance API integration                                   │ │
-│  │  • 79 market symbols mapping (US_SPX → ^GSPC)                     │ │
-│  │  • Mock data fallback for testing                                  │ │
-│  └───────────────────────────┬────────────────────────────────────────┘ │
-│                              ↓                                            │
-│  ┌────────────────────────────────────────────────────────────────────┐ │
-│  │  LAYER 4: Data Persistence (data_service.py)                       │ │
-│  │  • Save daily_state (mood_index, volatility, trend)               │ │
-│  │  • Save correlation_edges (market relationships)                   │ │
-│  │  • Query historical data                                            │ │
-│  └───────────────────────────┬────────────────────────────────────────┘ │
-│                              ↓                                            │
-│  ┌────────────────────────────────────────────────────────────────────┐ │
-│  │  SCHEDULER (scheduler.py)                                           │ │
-│  │  • Daily Analysis: 9:00 AM UTC (auto-fetch + analyze)             │ │
-│  │  • Weekly Cleanup: Sunday 2:00 AM (delete old data)               │ │
-│  └────────────────────────────────────────────────────────────────────┘ │
+│                   BACKEND SERVICE (Flask:5000)                           │
+│                                                                          │
+│  ┌────────────────────────────────────────────────────────────────────┐  │
+│  │  LAYER 1: Process Orchestration (process_bp.py)                    │  │
+│  │  • Pipeline coordination                                           │  │
+│  │  • Manual/scheduled triggers                                       │  │
+│  │  • Snapshot generation                                             │  │
+│  └───────────────────────────┬────────────────────────────────────────┘  │
+│                              ↓                                           │
+│  ┌────────────────────────────────────────────────────────────────────┐  │
+│  │  LAYER 2: Business Logic (analytics.py)                            │  │
+│  │  • FeatureCalculator: Volatility, Returns, Volume Ratios           │  │
+│  │  • MoodEngine: Mood Index = 0.5×Return - 0.3×Vol + 0.2×Volume      │  │
+│  │  • CorrelationCalculator: Pearson correlation between markets      │  │
+│  └───────────────────────────┬────────────────────────────────────────┘  │
+│                              ↓                                           │
+│  ┌────────────────────────────────────────────────────────────────────┐  │
+│  │  LAYER 3: Data Adapter (adapter.py)                                │  │
+│  │  • Yahoo Finance API integration                                   │  │
+│  │  • 79 market symbols mapping (US_SPX → ^GSPC)                      │  │
+│  │  • Mock data fallback for testing                                  │  │
+│  └───────────────────────────┬────────────────────────────────────────┘  │
+│                              ↓                                           │
+│  ┌────────────────────────────────────────────────────────────────────┐  │
+│  │  LAYER 4: Data Persistence (data_service.py)                       │  │
+│  │  • Save daily_state (mood_index, volatility, trend)                │  │
+│  │  • Save correlation_edges (market relationships)                   │  │
+│  │  • Query historical data                                           │  │
+│  └───────────────────────────┬────────────────────────────────────────┘  │
+│                              ↓                                           │
+│  ┌────────────────────────────────────────────────────────────────────┐  │
+│  │  SCHEDULER (scheduler.py)                                          │  │
+│  │  • Daily Analysis: 9:00 AM UTC (auto-fetch + analyze)              │  │
+│  │  • Weekly Cleanup: Sunday 2:00 AM (delete old data)                │  │
+│  └────────────────────────────────────────────────────────────────────┘  │
 └────────────────────────────────┬─────────────────────────────────────────┘
                                  ↓
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                   DATABASE (PostgreSQL:5432)                              │
-│                                                                           │
-│  ┌──────────────────────┐  ┌──────────────────────┐  ┌────────────────┐│
-│  │  market_registry     │  │  daily_state         │  │ correlation_   ││
-│  │  ─────────────────   │  │  ─────────────────   │  │ edges          ││
-│  │  • id (PK)           │←─│  • market_id (FK)    │  │ ──────────     ││
-│  │  • name              │  │  • date              │  │ • source_id(FK)││
-│  │  • latitude          │  │  • mood_index        │  │ • target_id(FK)││
-│  │  • longitude         │  │  • volatility_30d    │  │ • correlation_ ││
-│  │  • market_group      │  │  • trend_strength    │  │   value        ││
-│  │  • country           │  │  • updated_at        │  │ • date         ││
-│  │                      │  │                      │  │ • updated_at   ││
-│  │  79 markets          │  │  Time-series data    │  │ Graph data     ││
-│  └──────────────────────┘  └──────────────────────┘  └────────────────┘│
+│                   DATABASE (PostgreSQL:5432)                             │
+│                                                                          │
+│  ┌──────────────────────┐  ┌──────────────────────┐  ┌────────────────┐  │
+│  │  market_registry     │  │  daily_state         │  │ correlation_   │  │
+│  │  ─────────────────   │  │  ─────────────────   │  │ edges          │  │
+│  │  • id (PK)           │←─│  • market_id (FK)    │  │ ──────────     │  │
+│  │  • name              │  │  • date              │  │ • source_id(FK)│  │
+│  │  • latitude          │  │  • mood_index        │  │ • target_id(FK)│  │
+│  │  • longitude         │  │  • volatility_30d    │  │ • correlation_ │  │
+│  │  • market_group      │  │  • trend_strength    │  │   value        │  │
+│  │  • country           │  │  • updated_at        │  │ • date         │  │
+│  │                      │  │                      │  │ • updated_at   │  │
+│  │  79 markets          │  │  Time-series data    │  │ Graph data     │  │
+│  └──────────────────────┘  └──────────────────────┘  └────────────────┘  │
 └──────────────────────────────────────────────────────────────────────────┘
 
                                  ↓
 ┌──────────────────────────────────────────────────────────────────────────┐
-│               EXTERNAL DATA SOURCE (Yahoo Finance API)                    │
+│               EXTERNAL DATA SOURCE (Yahoo Finance API)                   │
 │  • Real-time stock prices (OHLCV data)                                   │
 │  • 30-day historical data for volatility calculation                     │
 │  • 79 global market indices                                              │
