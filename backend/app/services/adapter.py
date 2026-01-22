@@ -100,11 +100,105 @@ class YahooFinanceAdapter:
         'QA_DSM': '^DSM',        # Qatar DSM 20
         'KW_BKP': '^BKP',        # Kuwait BKP
         
-        # === AFRICA (4) ===
+        # === AFRICA (35) ===
+        # Southern Africa
         'ZA_JSE': '^JN0U.JO',    # South Africa JSE Top 40
         'ZA_JALSH': '^J203.JO',  # South Africa JSE All Share
-        'EG_EGX': '^CASE30',     # Egypt EGX 30
-        'MA_MASI': '^MASI.CS',   # Morocco MASI
+        'BW_BSE': 'BSE.BW',      # Botswana
+        'ZM_LUSE': 'LUSE.ZM',    # Zambia
+        'ZW_ZSE': 'ZSE.ZW',      # Zimbabwe
+        'NA_NSX': 'NSX.NA',      # Namibia
+        'MZ_BVM': 'BVM.MZ',      # Mozambique
+        'MW_MSE': 'MSE.MW',      # Malawi
+        'AO_BVDA': 'BVDA.AO',    # Angola
+        'SZ_SSX': 'SSX.SZ',      # Eswatini
+        'LS_MSM': 'MSM.LS',      # Lesotho
+        # East Africa
+        'KE_NSE': 'NSE.KE',      # Kenya
+        'UG_USE': 'USE.UG',      # Uganda
+        'TZ_DSE': 'DSE.TZ',      # Tanzania
+        'RW_RSE': 'RSE.RW',      # Rwanda
+        'ET_ESX': 'ESX.ET',      # Ethiopia
+        'MU_SEMDEX': 'SEMDEX.MU',# Mauritius
+        'SO_SSE': 'SSE.SO',      # Somalia
+        'DJ_DSE': 'DSE.DJ',      # Djibouti
+        'ER_ESE': 'ESE.ER',      # Eritrea
+        'SC_SSE': 'SSE.SC',      # Seychelles
+        # North Africa
+        'EG_EGX': '^CASE30',     # Egypt
+        'MA_MASI': '^MASI.CS',   # Morocco
+        'TN_TUNINDEX': 'TUNINDEX.TN', # Tunisia
+        'DZ_DZAIRINDEX': 'DZAIR.DZ',  # Algeria
+        'LY_LSM': 'LSM.LY',      # Libya
+        'SD_KSE': 'KSE.SD',      # Sudan
+        # West Africa
+        'NG_NSE': 'NSE.NG',      # Nigeria
+        'GH_GSE': 'GSE.GH',      # Ghana
+        'CI_BRVM': 'BRVM.CI',    # Ivory Coast
+        'SN_BRVM': 'BRVM.SN',    # Senegal
+        'BJ_BRVM': 'BRVM.BJ',    # Benin
+        'CM_DSX': 'DSX.CM',      # Cameroon
+        'NE_NSE': 'NSE.NE',      # Niger
+        'BF_BRVM': 'BRVM.BF',    # Burkina Faso
+        
+        # === ADDITIONAL EUROPE (15) ===
+        'RO_BET': '^BET',        # Romania
+        'BG_SOFIX': '^SOFIX',    # Bulgaria
+        'HR_CROBEX': '^CROBEX',  # Croatia
+        'SI_SBITOP': '^SBITOP',  # Slovenia
+        'RS_BELEX': '^BELEX15',  # Serbia
+        'SK_SAX': '^SAX',        # Slovakia
+        'LT_OMXV': '^OMXVGI',    # Lithuania
+        'LV_OMXR': '^OMXRGI',    # Latvia
+        'EE_OMXT': '^OMXTGI',    # Estonia
+        'UA_PFTS': '^PFTS',      # Ukraine
+        'IS_ICEX': '^ICEXI',     # Iceland
+        'LU_LUXX': '^LUXX',      # Luxembourg
+        'MT_MSE': 'MSE.MT',      # Malta
+        'CY_CSE': 'CSE.CY',      # Cyprus
+        'MK_MSE': 'MSE.MK',      # North Macedonia
+        
+        # === ADDITIONAL MIDDLE EAST & CENTRAL ASIA (10) ===
+        'JO_ASE': 'ASE.JO',      # Jordan
+        'LB_BLOM': 'BLOM.LB',    # Lebanon
+        'OM_MSM': 'MSM.OM',      # Oman
+        'BH_BAX': 'BAX.BH',      # Bahrain
+        'PS_PSE': 'PSE.PS',      # Palestine
+        'KZ_KASE': 'KASE.KZ',    # Kazakhstan
+        'UZ_UZSE': 'UZSE.UZ',    # Uzbekistan
+        'GE_GSE': 'GSE.GE',      # Georgia
+        'AM_AMX': 'AMX.AM',      # Armenia
+        'AZ_AZSE': 'AZSE.AZ',    # Azerbaijan
+        
+        # === ADDITIONAL ASIA-PACIFIC (12) ===
+        'MN_MSE': 'MSE.MN',      # Mongolia
+        'KH_CSX': 'CSX.KH',      # Cambodia
+        'LA_LSX': 'LSX.LA',      # Laos
+        'MM_YSX': 'YSX.MM',      # Myanmar
+        'NP_NEPSE': 'NEPSE.NP',  # Nepal
+        'BT_RSE': 'RSE.BT',      # Bhutan
+        'MV_MSE': 'MSE.MV',      # Maldives
+        'BN_BSE': 'BSE.BN',      # Brunei
+        'FJ_SPX': 'SPX.FJ',      # Fiji
+        'PG_PNGX': 'PNGX.PG',    # Papua New Guinea
+        'MO_MSE': 'MSE.MO',      # Macau
+        'TL_TLSE': 'TLSE.TL',    # Timor-Leste
+        
+        # === ADDITIONAL LATIN AMERICA & CARIBBEAN (14) ===
+        'UY_ BOLSA': 'BOLSA.UY', # Uruguay
+        'PY_BVPASA': 'BVPASA.PY',# Paraguay
+        'BO_BOLSA': 'BOLSA.BO',  # Bolivia
+        'EC_IPEC': 'IPEC.EC',    # Ecuador
+        'PA_BVPAN': 'BVPAN.PA',  # Panama
+        'SV_BVES': 'BVES.SV',    # El Salvador
+        'GT_BVG': 'BVG.GT',      # Guatemala
+        'HN_BVH': 'BVH.HN',      # Honduras
+        'NI_BVDN': 'BVDN.NI',    # Nicaragua
+        'DO_BVRD': 'BVRD.DO',    # Dominican Republic
+        'TT_TTSE': '^TTSE',      # Trinidad & Tobago
+        'BB_BSE': 'BSE.BB',      # Barbados
+        'BS_BISX': 'BISX.BS',    # Bahamas
+        'BM_BSX': '^BSX',        # Bermuda
     }
     
     # Mock prices for testing - Realistic base values (as of Jan 2026)
@@ -140,8 +234,42 @@ class YahooFinanceAdapter:
         'IL_TA125': 1900.0, 'SA_TASI': 11000.0, 'AE_ADX': 9500.0, 'AE_DFM': 4000.0,
         'QA_DSM': 3500.0, 'KW_BKP': 6500.0,
         
-        # Africa
-        'ZA_JSE': 65000.0, 'ZA_JALSH': 75000.0, 'EG_EGX': 25000.0, 'MA_MASI': 13000.0,
+        # Africa - Southern
+        'ZA_JSE': 65000.0, 'ZA_JALSH': 75000.0, 'BW_BSE': 7800.0, 'ZM_LUSE': 5200.0,
+        'ZW_ZSE': 8500.0, 'NA_NSX': 1650.0, 'MZ_BVM': 1200.0, 'MW_MSE': 950.0,
+        'AO_BVDA': 2800.0, 'SZ_SSX': 180.0, 'LS_MSM': 95.0,
+        # Africa - East
+        'KE_NSE': 180.0, 'UG_USE': 2500.0, 'TZ_DSE': 2100.0, 'RW_RSE': 145.0,
+        'ET_ESX': 3500.0, 'MU_SEMDEX': 2100.0, 'SO_SSE': 850.0, 'DJ_DSE': 1200.0,
+        'ER_ESE': 680.0, 'SC_SSE': 420.0,
+        # Africa - North
+        'EG_EGX': 25000.0, 'MA_MASI': 13000.0, 'TN_TUNINDEX': 7800.0, 'DZ_DZAIRINDEX': 4200.0,
+        'LY_LSM': 3800.0, 'SD_KSE': 2200.0,
+        # Africa - West
+        'NG_NSE': 72000.0, 'GH_GSE': 3100.0, 'CI_BRVM': 215.0, 'SN_BRVM': 180.0,
+        'BJ_BRVM': 165.0, 'CM_DSX': 1650.0, 'NE_NSE': 890.0, 'BF_BRVM': 145.0,
+        
+        # Additional Europe
+        'RO_BET': 13500.0, 'BG_SOFIX': 620.0, 'HR_CROBEX': 2200.0, 'SI_SBITOP': 1150.0,
+        'RS_BELEX': 850.0, 'SK_SAX': 380.0, 'LT_OMXV': 1280.0, 'LV_OMXR': 1150.0,
+        'EE_OMXT': 1680.0, 'UA_PFTS': 1800.0, 'IS_ICEX': 2450.0, 'LU_LUXX': 1680.0,
+        'MT_MSE': 4200.0, 'CY_CSE': 68.0, 'MK_MSE': 2850.0,
+        
+        # Additional Middle East & Central Asia
+        'JO_ASE': 2450.0, 'LB_BLOM': 950.0, 'OM_MSM': 4600.0, 'BH_BAX': 1950.0,
+        'PS_PSE': 550.0, 'KZ_KASE': 3200.0, 'UZ_UZSE': 1450.0, 'GE_GSE': 3800.0,
+        'AM_AMX': 680.0, 'AZ_AZSE': 1250.0,
+        
+        # Additional Asia-Pacific
+        'MN_MSE': 1650.0, 'KH_CSX': 680.0, 'LA_LSX': 1200.0, 'MM_YSX': 2100.0,
+        'NP_NEPSE': 2850.0, 'BT_RSE': 480.0, 'MV_MSE': 850.0, 'BN_BSE': 1580.0,
+        'FJ_SPX': 3500.0, 'PG_PNGX': 9500.0, 'MO_MSE': 4200.0, 'TL_TLSE': 650.0,
+        
+        # Additional Latin America & Caribbean
+        'UY_ BOLSA': 1850.0, 'PY_BVPASA': 850.0, 'BO_BOLSA': 12500.0, 'EC_IPEC': 1350.0,
+        'PA_BVPAN': 15800.0, 'SV_BVES': 420.0, 'GT_BVG': 1200.0, 'HN_BVH': 480.0,
+        'NI_BVDN': 350.0, 'DO_BVRD': 1100.0, 'TT_TTSE': 1650.0, 'BB_BSE': 3200.0,
+        'BS_BISX': 2850.0, 'BM_BSX': 1580.0,
     }
     
     @classmethod
