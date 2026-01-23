@@ -108,6 +108,12 @@ Wait a bit until the database is healthy:
 marketmind-postgres: ... healthy
 ```
 
+If you have an error such as:
+```bash
+failed to bind host port for 0.0.0.0:80:172.21.0.4:80/tcp: address already in use
+```
+Make sure your port 80 is free, and retry.
+
 Then you can query the data:
 ```bash
 curl http://localhost/api/data/markets
