@@ -285,13 +285,6 @@ python -m flask run
 FLASK_ENV=development python -m flask run
 ```
 
-## Authors
-
-* **Wail Ameur**
-* **Da Li**
-
-*Project created for the **Service Design and Engineering (SDE)** class.*
-
 ## License
 
 This project is licensed under the **MIT License** - free and open source.
